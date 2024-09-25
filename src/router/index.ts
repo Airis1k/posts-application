@@ -10,8 +10,10 @@ const router = createRouter({
    routes: [
       {
          path: "/",
-         name: "Posts",
-         component: PostsView,
+         children: [
+            { path: "", name: "Posts", component: PostsView, alias: "posts" },
+            { path: "posts/:id", name: "SinglePost", component: SinglePostView },
+         ],
       },
       {
          path: "/authors",
@@ -22,11 +24,6 @@ const router = createRouter({
          path: "/login",
          name: "Login",
          component: LoginView,
-      },
-      {
-         path: "/posts/:id",
-         name: "SinglePost",
-         component: SinglePostView,
       },
       {
          path: "/:catchAll(.*)",

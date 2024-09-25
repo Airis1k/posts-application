@@ -25,6 +25,12 @@ npm install
 npm run dev
 ```
 
+-  To start json-server, run:
+
+```
+json-server --watch db.json
+```
+
 -  To check eslint & typescript types tests, run:
 
 ```
