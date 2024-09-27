@@ -26,6 +26,7 @@
 /* semantic color variables for this project */
 :root {
    --color-background: var(--vt-c-white);
+   --color-background-reverse: var(--vt-c-black);
    --color-background-soft: var(--vt-c-white-soft);
    --color-background-mute: var(--vt-c-white-mute);
 
@@ -36,11 +37,15 @@
    --color-text: var(--vt-c-text-light-1);
 
    --section-gap: 160px;
+
+   --toastify-close-button-color: invert(99%) sepia(0%) saturate(3294%) hue-rotate(64deg)
+      brightness(107%) contrast(100%);
 }
 
 @media (prefers-color-scheme: dark) {
    :root {
       --color-background: var(--vt-c-black);
+      --color-background-reverse: var(--vt-c-white);
       --color-background-soft: var(--vt-c-black-soft);
       --color-background-mute: var(--vt-c-black-mute);
 
@@ -49,6 +54,9 @@
 
       --color-heading: var(--vt-c-text-dark-1);
       --color-text: var(--vt-c-text-dark-2);
+
+      --toastify-close-button-color: invert(0%) sepia(65%) saturate(1241%) hue-rotate(2deg)
+         brightness(97%) contrast(81%);
    }
 }
 
