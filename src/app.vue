@@ -2,6 +2,7 @@
 import { RouterView, useRoute } from "vue-router";
 import { computed } from "vue";
 import NavigationBar from "./components/navigation-bar.vue";
+import ToastNotification from "./components/toastify/toast-list.vue";
 
 const route = useRoute();
 const isNotPage404 = computed(() => route.name !== "PageNotFound");
@@ -13,4 +14,5 @@ const isNotPage404 = computed(() => route.name !== "PageNotFound");
    <main>
       <RouterView />
    </main>
+   <ToastNotification />
 </template>

@@ -3,10 +3,15 @@ import { onMounted } from "vue";
 import { useAuthors } from "../../composables/authors/get-authors";
 import { useFormatDate } from "../../utils/format-date";
 import AuthorItem from "./author-item.vue";
+import { useNotificationsStore } from "../../stores/notifications-store";
 
 const { authors, error, loading, fetchAuthors } = useAuthors();
+const notificationStore = useNotificationsStore();
 
-function addLatestDateProperty() {
+const notifySuccess = (msg: string) => notificationStore.setSuccess(msg);
+const notifyError = (msg: string) => notificationStore.setError(msg);
+
+function addLatestDateProperty(): void {
    if (!authors.value) return;
 
    authors.value.forEach((author) => {
@@ -20,6 +25,12 @@ function addLatestDateProperty() {
 
 onMounted(async () => {
    await fetchAuthors();
+   if (authors.value) {
+      notifySuccess("Authors were fetched successfully!");
+   }
+   if (error.value) {
+      notifyError(error.value.message);
+   }
    addLatestDateProperty();
 });
 </script>
