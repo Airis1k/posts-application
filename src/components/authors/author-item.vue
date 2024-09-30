@@ -1,9 +1,21 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useFormatDate } from "../../utils/format-date";
 import { type Author } from "../../typings/authors";
 
-defineProps<{
+const props = defineProps<{
    author: Author;
 }>();
+
+const authorFullName = computed(() => props.author.name + " " + props.author.surname);
+
+const latestDate = computed(() => {
+   const createdAt = new Date(props.author.created_at);
+   const updatedAt = new Date(props.author.updated_at);
+
+   const latest = createdAt > updatedAt ? createdAt : updatedAt;
+   return useFormatDate(latest);
+});
 </script>
 
 <template>
@@ -14,8 +26,8 @@ defineProps<{
          </header>
          <div class="card-content">
             <div class="content">
-               <h2 class="headingText">{{ author.name }} {{ author.surname }}</h2>
-               <span class="date">{{ author.latest_date }}</span>
+               <h2 class="headingText">{{ authorFullName }}</h2>
+               <span class="date">{{ latestDate }}</span>
             </div>
          </div>
          <footer class="card-footer">
