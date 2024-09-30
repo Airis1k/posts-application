@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { RouterLink } from "vue-router";
 import { useFormatDate } from "../../utils/format-date";
 import { type PostWithAuthor } from "../../typings/posts";
 
@@ -30,7 +31,12 @@ const latestDate = computed(() => {
          </header>
          <div class="card-content">
             <div class="content">
-               <h2 class="headingText">{{ postWithAuthor.title }}</h2>
+               <RouterLink
+                  :to="{ name: 'SinglePost', params: { id: postWithAuthor.id } }"
+                  class="linkStyle"
+               >
+                  <h2 class="headingText">{{ postWithAuthor.title }}</h2>
+               </RouterLink>
                <span class="date">{{ latestDate }}</span>
             </div>
          </div>
@@ -67,5 +73,14 @@ const latestDate = computed(() => {
 
 .card-footer-item {
    color: #7585ff;
+}
+
+.linkStyle {
+   display: block;
+   color: var(--color-background-reverse);
+}
+
+.linkStyle:hover {
+   text-decoration: underline;
 }
 </style>
