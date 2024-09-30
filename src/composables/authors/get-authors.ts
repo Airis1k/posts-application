@@ -2,7 +2,7 @@ import { ApiService } from "../../services/api-service";
 import { type Author } from "../../typings/authors";
 import { ref } from "vue";
 
-const authorsCache = ref<Author[] | null>(null);
+let authorsCache: Author[] | null = null;
 
 export function useAuthors() {
    const authors = ref<Author[] | null>(null);
@@ -10,8 +10,8 @@ export function useAuthors() {
    const loading = ref(false);
 
    async function fetchAuthors(): Promise<void> {
-      if (authorsCache.value) {
-         authors.value = authorsCache.value;
+      if (authorsCache) {
+         authors.value = authorsCache;
          return;
       }
 
@@ -20,7 +20,7 @@ export function useAuthors() {
          const response = await ApiService.get("/authors");
          authors.value = response.data;
 
-         authorsCache.value = response.data;
+         authorsCache = response.data;
       } catch (err) {
          error.value = err as Error;
       } finally {
