@@ -1,5 +1,7 @@
+export type AuthorId = number;
+
 export type Author = {
-   id: number;
+   id: AuthorId;
    name: string;
    surname: string;
    userId: number;
