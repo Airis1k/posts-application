@@ -12,7 +12,7 @@ const router = createRouter({
          path: "/",
          children: [
             { path: "", name: "Posts", component: PostsView, alias: "posts" },
-            { path: "posts/:id", name: "SinglePost", component: SinglePostView },
+            { path: "posts/:id", name: "SinglePost", component: SinglePostView, props: true },
          ],
       },
       {
