@@ -28,11 +28,17 @@ npm run dev
 -  To start json-server, run:
 
 ```
-json-server --watch db.json
+json-server-auth db.json -r routes.json -w
 ```
 
 -  To check eslint & typescript types tests, run:
 
 ```
 npm run type-test
+```
+
+-  To commit messages instead of `git commit -m`, use:
+
+```
+npm run commit
 ```
