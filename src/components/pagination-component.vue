@@ -34,22 +34,23 @@ watchEffect(() => {
    <ul class="listWrap">
       <slot></slot>
    </ul>
-   <div v-if="isMoreThanOnePage" class="button-container">
-      <button class="nav-button" @click="prevPage" :disabled="currentPage <= 1">Previous</button>
-      <button class="nav-button" @click="nextPage" :disabled="currentPage >= totalPages">
-         Next
-      </button>
+   <div v-if="isMoreThanOnePage" class="pageInfo">
+      <div>
+         <p>
+            Showing <span class="boldNumber">{{ currentPage }}</span> of
+            <span class="boldNumber">{{ totalPages }}</span> pages
+         </p>
+      </div>
+      <div class="buttonWrap">
+         <button class="navButton" @click="prevPage" :disabled="currentPage <= 1">Previous</button>
+         <button class="navButton" @click="nextPage" :disabled="currentPage >= totalPages">
+            Next
+         </button>
+      </div>
    </div>
 </template>
 
 <style scoped>
-.content-wrapper {
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   margin-top: 1rem;
-}
-
 .listWrap {
    display: flex;
    flex-wrap: wrap;
@@ -57,30 +58,41 @@ watchEffect(() => {
    margin-bottom: 1rem;
 }
 
-.button-container {
+.pageInfo {
    display: flex;
-   justify-content: center;
-   gap: 1rem;
-   margin-top: 1rem;
+   justify-content: space-between;
+   border-top: 1px solid gray;
+   padding-top: 1rem;
+   margin-top: 5rem;
+   align-items: center;
 }
 
-.nav-button {
-   padding: 0.5rem 1rem;
-   border: none;
-   border-radius: 5px;
-   background-color: #007bff;
-   color: white;
-   cursor: pointer;
-   transition: background-color 0.3s ease;
+.boldNumber {
+   font-weight: 600;
 }
 
-.nav-button:hover {
-   background-color: #0056b3;
+.navButton {
+   padding: 0.5rem 0.75rem;
+   font-size: 0.875rem;
+   line-height: 1.25rem;
+   font-weight: 600;
+   border-radius: 0.375rem;
+   background-color: var(--color-background-btn);
+   color: var(--color-txt-btn);
 }
 
-.nav-button:disabled {
-   background-color: #ccc;
-   color: #007bff;
+.navButton:hover {
+   background-color: var(--color-background-btn-hover);
+}
+
+.buttonWrap {
+   display: flex;
+   column-gap: 0.7rem;
+}
+
+.navButton:disabled {
+   background-color: var(--btn-disabled);
+   opacity: 0.7;
    cursor: not-allowed;
 }
 </style>

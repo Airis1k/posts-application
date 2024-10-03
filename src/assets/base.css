@@ -29,6 +29,10 @@
    --color-background-reverse: var(--vt-c-black);
    --color-background-soft: var(--vt-c-white-soft);
    --color-background-mute: var(--vt-c-white-mute);
+   --color-background-btn: #eef2ff;
+   --color-background-btn-hover: rgb(223 224 231);
+   --color-txt-btn: rgb(79 70 229 / 1);
+   --btn-disabled: #ccc;
 
    --color-border: var(--vt-c-divider-light-2);
    --color-border-hover: var(--vt-c-divider-light-1);
@@ -48,6 +52,10 @@
       --color-background-reverse: var(--vt-c-white);
       --color-background-soft: var(--vt-c-black-soft);
       --color-background-mute: var(--vt-c-black-mute);
+      --color-background-btn: rgb(99 102 241 / 1);
+      --color-background-btn-hover: rgb(129 140 248 / 1);
+      --color-txt-btn: #fff;
+      --btn-disabled: rgb(74 77 223);
 
       --color-border: var(--vt-c-divider-dark-2);
       --color-border-hover: var(--vt-c-divider-dark-1);
