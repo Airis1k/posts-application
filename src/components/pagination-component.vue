@@ -31,9 +31,6 @@ watchEffect(() => {
 </script>
 
 <template>
-   <ul class="listWrap">
-      <slot></slot>
-   </ul>
    <div v-if="isMoreThanOnePage" class="pageInfo">
       <div>
          <p>
@@ -51,13 +48,6 @@ watchEffect(() => {
 </template>
 
 <style scoped>
-.listWrap {
-   display: flex;
-   flex-wrap: wrap;
-   gap: 2rem;
-   margin-bottom: 1rem;
-}
-
 .pageInfo {
    display: flex;
    justify-content: space-between;
