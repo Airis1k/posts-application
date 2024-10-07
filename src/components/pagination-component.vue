@@ -1,33 +1,29 @@
 <script setup lang="ts">
-import { computed, ref, watchEffect } from "vue";
+import { computed } from "vue";
 
 const props = defineProps<{
    totalCount: number;
    itemsPerPage: number;
+   currentPage: number;
 }>();
 
 const emit = defineEmits(["page-changed"]);
-const currentPage = ref(1);
 
 const totalPages = computed(() => Math.ceil(props.totalCount / props.itemsPerPage));
 
 const isMoreThanOnePage = computed(() => totalPages.value > 1);
 
 function nextPage() {
-   if (currentPage.value < totalPages.value) {
-      currentPage.value++;
+   if (props.currentPage < totalPages.value) {
+      emit("page-changed", props.currentPage + 1);
    }
 }
 
 function prevPage() {
-   if (currentPage.value > 1) {
-      currentPage.value--;
+   if (props.currentPage > 1) {
+      emit("page-changed", props.currentPage - 1);
    }
 }
-
-watchEffect(() => {
-   emit("page-changed", currentPage.value);
-});
 </script>
 
 <template>

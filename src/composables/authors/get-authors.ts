@@ -13,12 +13,20 @@ export function useAuthors() {
       totalAuthorsCount.value = null;
    }
 
-   async function fetchAuthors(pageNumber: number = 1, limitNumber: number = 2): Promise<void> {
+   async function fetchAuthors(
+      pageNumber: number = 1,
+      limitNumber: number = 2,
+      searchQuery?: string,
+   ): Promise<void> {
+      let URL = `/authors?_page=${pageNumber}&_limit=${limitNumber}`;
+      if (searchQuery) {
+         URL += `&q=${searchQuery}`;
+      }
       loading.value = true;
+
       try {
-         const response = await ApiService.get(
-            `/authors?_page=${pageNumber}&_limit=${limitNumber}`,
-         );
+         const response = await ApiService.get(URL);
+
          authors.value = response.data;
          totalAuthorsCount.value = Number(response.headers["x-total-count"]);
       } catch (err) {
