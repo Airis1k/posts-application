@@ -16,12 +16,17 @@ export function usePostsWithAuthor() {
    async function fetchPostsWithAuthor(
       pageNumber: number = 1,
       limitNumber: number = 2,
+      searchQuery?: string,
    ): Promise<void> {
+      let URL = `/posts?_expand=author&_page=${pageNumber}&_limit=${limitNumber}`;
+      if (searchQuery) {
+         URL += `&q=${searchQuery}`;
+      }
       loading.value = true;
+
       try {
-         const response = await ApiService.get(
-            `/posts?_expand=author&_page=${pageNumber}&_limit=${limitNumber}`,
-         );
+         const response = await ApiService.get(URL);
+
          postsWithAuthor.value = response.data;
          totalPostsCount.value = Number(response.headers["x-total-count"]);
       } catch (err) {
