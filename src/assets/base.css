@@ -33,6 +33,8 @@
    --color-background-btn-hover: rgb(223 224 231);
    --color-txt-btn: rgb(79 70 229 / 1);
    --btn-disabled: #ccc;
+   --logout-btn: #f3f4f6;
+   --logout-btn-text: #2e333d;
 
    --color-border: var(--vt-c-divider-light-2);
    --color-border-hover: var(--vt-c-divider-light-1);
@@ -56,6 +58,8 @@
       --color-background-btn-hover: rgb(129 140 248 / 1);
       --color-txt-btn: #fff;
       --btn-disabled: rgb(74 77 223);
+      --logout-btn: #00d1b2;
+      --logout-btn-text: #001f1a;
 
       --color-border: var(--vt-c-divider-dark-2);
       --color-border-hover: var(--vt-c-divider-dark-1);

@@ -24,7 +24,7 @@ const notifyError = (msg: string) => notificationStore.setError(msg);
 onMounted(async () => {
    await fetchPostsWithAuthor(1, POSTS_PER_PAGE);
    if (postsWithAuthor.value) {
-      notifySuccess("Authors were fetched successfully!");
+      notifySuccess("Posts were fetched successfully!");
    }
 });
 

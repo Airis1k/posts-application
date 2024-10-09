@@ -1,5 +1,28 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
+import { computed } from "vue";
+import { RouterLink, useRouter } from "vue-router";
+import { useFormatFirstName } from "@/utils/format-name";
+import { useUserStore } from "@/stores/user-store";
+import { useNotificationsStore } from "@/stores/notifications-store";
+
+const userStore = useUserStore();
+const notificationStore = useNotificationsStore();
+
+const notifySuccess = (msg: string) => notificationStore.setSuccess(msg);
+
+const isAuthenticated = computed(() => userStore.user.id !== 0);
+
+const firstName = computed(() => {
+   return isAuthenticated.value ? useFormatFirstName(userStore.user.name) : null;
+});
+
+const router = useRouter();
+
+function logout() {
+   userStore.reset();
+   notifySuccess("User has logged out successfully!");
+   router.push({ name: "Login" });
+}
 </script>
 
 <template>
@@ -36,6 +59,13 @@ import { RouterLink } from "vue-router";
                <RouterLink :to="{ name: 'Authors' }" class="navbar-item">Authors</RouterLink>
             </div>
          </div>
+
+         <div v-if="isAuthenticated" class="authWrap">
+            <p>
+               Welcome, <span class="boldText">{{ firstName }}</span>
+            </p>
+            <button @click="logout" class="button">Logout</button>
+         </div>
       </nav>
    </header>
 </template>
@@ -49,9 +79,25 @@ import { RouterLink } from "vue-router";
 
 .navbar {
    background-color: var(--color-background);
+   align-items: center;
 }
 
 .logo {
    fill: var(--asd);
+}
+
+.boldText {
+   font-weight: 600;
+}
+
+.authWrap {
+   display: flex;
+   column-gap: 2rem;
+   align-items: center;
+}
+
+.button {
+   background-color: var(--logout-btn);
+   color: var(--logout-btn-text);
 }
 </style>
