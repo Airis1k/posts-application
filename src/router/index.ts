@@ -24,6 +24,14 @@ const router = createRouter({
          path: "/login",
          name: "Login",
          component: LoginView,
+         beforeEnter(to, from, next) {
+            const isAuthenticated = localStorage.getItem("userInfo");
+            if (isAuthenticated) {
+               next("/");
+            } else {
+               next();
+            }
+         },
       },
       {
          path: "/:catchAll(.*)",
