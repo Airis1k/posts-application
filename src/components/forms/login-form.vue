@@ -49,7 +49,7 @@ function handleSubmit(values: GenericObject, { resetForm }: { resetForm: () => v
       </div>
       <div class="field">
          <p class="control">
-            <button class="button is-success">Login</button>
+            <button class="button">Login</button>
          </p>
       </div>
    </VeeForm>
