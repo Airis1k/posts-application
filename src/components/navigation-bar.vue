@@ -66,6 +66,9 @@ function logout() {
             </p>
             <button @click="logout" class="button">Logout</button>
          </div>
+         <div v-else class="authWrap">
+            <RouterLink :to="{ name: 'Login' }" class="button">Login</RouterLink>
+         </div>
       </nav>
    </header>
 </template>
