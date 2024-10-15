@@ -12,6 +12,7 @@ const POSTS_PER_PAGE = ITEMS_PER_PAGE;
 
 const currentPage = ref(1);
 const currentSearchQuery = ref("");
+const searchPlaceholder: string = "Find a post";
 
 const { postsWithAuthor, totalPostsCount, error, loading, fetchPostsWithAuthor } =
    usePostsWithAuthor();
@@ -49,7 +50,9 @@ function handleSearchSubmit(searchValue: string) {
 <template>
    <div class="container">
       <h1 class="headingText">Posts page</h1>
-      <SearchForm @form-submitted="handleSearchSubmit" />
+      <div class="wrapper">
+         <SearchForm @form-submitted="handleSearchSubmit" :searchPlaceholder="searchPlaceholder" />
+      </div>
       <PostsList :posts-with-author="postsWithAuthor" :loading="loading" :error="error" />
       <PaginationComponent
          v-if="totalPostsCount && totalPostsCount > 0"
@@ -71,6 +74,12 @@ function handleSearchSubmit(searchValue: string) {
 .headingText {
    font-size: 2.5rem;
    font-weight: 600;
+   margin-bottom: 2rem;
+}
+
+.wrapper {
+   display: flex;
+   column-gap: 2rem;
    margin-bottom: 2rem;
 }
 </style>

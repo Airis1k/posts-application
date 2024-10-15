@@ -11,6 +11,8 @@ export function useAuthors() {
    function resetProperties() {
       authors.value = null;
       totalAuthorsCount.value = null;
+      error.value = null;
+      loading.value = false;
    }
 
    async function fetchAuthors(
@@ -18,6 +20,8 @@ export function useAuthors() {
       limitNumber: number = 2,
       searchQuery?: string,
    ): Promise<void> {
+      resetProperties();
+
       let URL = `/authors?_page=${pageNumber}&_limit=${limitNumber}`;
       if (searchQuery) {
          URL += `&q=${searchQuery}`;
@@ -31,7 +35,6 @@ export function useAuthors() {
          totalAuthorsCount.value = Number(response.headers["x-total-count"]);
       } catch (err) {
          error.value = err as Error;
-         resetProperties();
       } finally {
          loading.value = false;
       }

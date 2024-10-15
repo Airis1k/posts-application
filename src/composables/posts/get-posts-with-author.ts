@@ -11,6 +11,8 @@ export function usePostsWithAuthor() {
    function resetProperties() {
       postsWithAuthor.value = null;
       totalPostsCount.value = null;
+      error.value = null;
+      loading.value = false;
    }
 
    async function fetchPostsWithAuthor(
@@ -18,6 +20,8 @@ export function usePostsWithAuthor() {
       limitNumber: number = 2,
       searchQuery?: string,
    ): Promise<void> {
+      resetProperties();
+
       let URL = `/posts?_expand=author&_page=${pageNumber}&_limit=${limitNumber}`;
       if (searchQuery) {
          URL += `&q=${searchQuery}`;
@@ -31,7 +35,6 @@ export function usePostsWithAuthor() {
          totalPostsCount.value = Number(response.headers["x-total-count"]);
       } catch (err) {
          error.value = err as Error;
-         resetProperties();
       } finally {
          loading.value = false;
       }

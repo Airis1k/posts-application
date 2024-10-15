@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { Field, Form as VeeForm, ErrorMessage, type GenericObject } from "vee-validate";
+import { Field, Form as VeeForm, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
+import { type Credentials } from "@/typings/login";
 
 const emit = defineEmits(["form-submitted"]);
 
@@ -9,13 +10,14 @@ const schema = yup.object({
    password: yup.string().min(6).required(),
 });
 
-function handleSubmit(values: GenericObject, { resetForm }: { resetForm: () => void }) {
+function handleSubmit(values: Credentials, { resetForm }: { resetForm: () => void }) {
    emit("form-submitted", values.email, values.password);
    resetForm();
 }
 </script>
 
 <template>
+   <!-- @vue-ignore -->
    <VeeForm :validation-schema="schema" @submit="handleSubmit">
       <div class="field">
          <p class="control has-icons-left has-icons-right">
@@ -24,7 +26,7 @@ function handleSubmit(values: GenericObject, { resetForm }: { resetForm: () => v
                name="email"
                type="email"
                placeholder="Email"
-               :validate-on-input="true"
+               :validate-on-blur="true"
             />
             <span class="icon is-small is-left">
                <img src="../../assets/svg/mail.svg" alt="mail logo" />
@@ -39,7 +41,7 @@ function handleSubmit(values: GenericObject, { resetForm }: { resetForm: () => v
                name="password"
                type="password"
                placeholder="Password"
-               :validate-on-input="true"
+               :validate-on-blur="true"
             />
             <span class="icon is-small is-left">
                <img src="../../assets/svg/lock.svg" alt="lock logo" />
