@@ -1,17 +1,24 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useModalStore } from "@/stores/modal-store";
+import { type ModalArguments } from "@/typings/modal";
+
+const emit = defineEmits(["form-submitted"]);
 
 const modalStore = useModalStore();
 
 const dynamicComponent = computed(() => modalStore.modal);
 const isOpen = computed(() => modalStore.isOpen);
+
+function handleFormSubmit(theArgs: ModalArguments) {
+   emit("form-submitted", theArgs);
+}
 </script>
 
 <template>
    <div v-if="isOpen" class="modalOverlay" @click="modalStore.closeModal">
       <div class="modalContent" @click.stop>
-         <component :is="dynamicComponent" />
+         <component @form-submitted="handleFormSubmit" :is="dynamicComponent" />
       </div>
    </div>
 </template>
@@ -28,10 +35,11 @@ const isOpen = computed(() => modalStore.isOpen);
    justify-content: center;
    align-items: center;
    z-index: 1000;
+   backdrop-filter: blur(10px);
 }
 
 .modalContent {
-   background: white;
+   background-color: var(--modal-bg-color);
    padding: 20px;
    border-radius: 10px;
    width: 400px;

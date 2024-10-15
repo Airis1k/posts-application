@@ -5,3 +5,8 @@ export function useFormatDate(date: Date): string {
 
    return `${year}-${month}-${day}`;
 }
+
+export function useCurrentDateFormatted(): string {
+   const date = new Date();
+   return date.toISOString();
+}

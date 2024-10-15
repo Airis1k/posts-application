@@ -35,6 +35,7 @@
    --btn-disabled: #ccc;
    --logout-btn: #f3f4f6;
    --logout-btn-text: #2e333d;
+   --modal-bg-color: #efe6dd;
 
    --color-border: var(--vt-c-divider-light-2);
    --color-border-hover: var(--vt-c-divider-light-1);
@@ -60,6 +61,7 @@
       --btn-disabled: rgb(74 77 223);
       --logout-btn: #00d1b2;
       --logout-btn-text: #001f1a;
+      --modal-bg-color: #231f20;
 
       --color-border: var(--vt-c-divider-dark-2);
       --color-border-hover: var(--vt-c-divider-dark-1);

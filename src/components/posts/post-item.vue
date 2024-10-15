@@ -3,10 +3,15 @@ import { computed } from "vue";
 import { RouterLink } from "vue-router";
 import { useFormatDate } from "../../utils/format-date";
 import { type PostWithAuthor } from "../../typings/posts";
+import { useUserStore } from "@/stores/user-store";
 
 const props = defineProps<{
    postWithAuthor: PostWithAuthor;
 }>();
+
+const userStore = useUserStore();
+
+const isAuthenticated = computed(() => userStore.user.id !== 0);
 
 const authorFullName = computed(
    () => props.postWithAuthor.author.name + " " + props.postWithAuthor.author.surname,
@@ -40,7 +45,7 @@ const latestDate = computed(() => {
                <span class="date">{{ latestDate }}</span>
             </div>
          </div>
-         <footer class="card-footer">
+         <footer v-if="isAuthenticated" class="card-footer">
             <button class="card-footer-item">Edit</button>
             <button class="card-footer-item">Delete</button>
          </footer>

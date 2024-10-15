@@ -2,10 +2,15 @@
 import { computed } from "vue";
 import { useFormatDate } from "../../utils/format-date";
 import { type Author } from "../../typings/authors";
+import { useUserStore } from "@/stores/user-store";
 
 const props = defineProps<{
    author: Author;
 }>();
+
+const userStore = useUserStore();
+
+const isAuthenticated = computed(() => userStore.user.id !== 0);
 
 const authorFullName = computed(() => props.author.name + " " + props.author.surname);
 
@@ -30,7 +35,7 @@ const latestDate = computed(() => {
                <span class="date">{{ latestDate }}</span>
             </div>
          </div>
-         <footer class="card-footer">
+         <footer v-if="isAuthenticated" class="card-footer">
             <button class="card-footer-item">Edit</button>
             <button class="card-footer-item">Delete</button>
          </footer>

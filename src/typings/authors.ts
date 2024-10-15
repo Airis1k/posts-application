@@ -9,3 +9,8 @@ export type Author = {
    updated_at: string;
    latest_date?: string;
 };
+
+export type RawAuthor = {
+   name: string;
+   surname: string;
+};

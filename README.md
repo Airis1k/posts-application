@@ -19,6 +19,12 @@ cd <project_name>
 npm install
 ```
 
+-  If json-server is not installed, use this command to install it:
+
+```
+npm install -g json-server@0.17.4 json-server-auth express
+```
+
 -  To start development, run:
 
 ```
