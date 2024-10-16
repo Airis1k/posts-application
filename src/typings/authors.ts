@@ -14,3 +14,10 @@ export type RawAuthor = {
    name: string;
    surname: string;
 };
+
+export type RawMutateAuthor = {
+   id: AuthorId;
+   name: string;
+   surname: string;
+   created_at: string;
+};

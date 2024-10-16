@@ -12,6 +12,9 @@ import { useModalStore } from "@/stores/modal-store";
 import { useUserStore } from "@/stores/user-store";
 import CreateAuthorForm from "@/components/forms/create-author-form.vue";
 import { type ModalArguments } from "@/typings/modal";
+import type { AuthorId } from "@/typings/authors";
+import { useAuthorGlobalState } from "@/stores/author-store";
+import EditAuthorForm from "@/components/forms/edit-author-form.vue";
 
 const AUTHORS_PER_PAGE = ITEMS_PER_PAGE;
 
@@ -24,6 +27,7 @@ const { authors, totalAuthorsCount, error, loading, fetchAuthors } = useAuthors(
 const notificationStore = useNotificationsStore();
 const modalStore = useModalStore();
 const userStore = useUserStore();
+const authorState = useAuthorGlobalState();
 
 const notifySuccess = (msg: string) => notificationStore.setSuccess(msg);
 const notifyError = (msg: string) => notificationStore.setError(msg);
@@ -54,18 +58,29 @@ function handleSearchSubmit(searchValue: string) {
    fetchAuthors(currentPage.value, AUTHORS_PER_PAGE, searchQuery.value);
 }
 
-async function handleCreateAuthorForm(theArgs: ModalArguments) {
+async function handleFormSubmit(theArgs: ModalArguments) {
    const { success, error } = theArgs.responseMessage;
 
    if (success) {
       notifySuccess(success);
       theArgs.reset();
       modalStore.closeModal();
-   } else if (error) {
-      notifyError(error);
+      fetchAuthors(currentPage.value, AUTHORS_PER_PAGE, searchQuery.value);
+
+      return;
    }
 
-   fetchAuthors(currentPage.value, AUTHORS_PER_PAGE, searchQuery.value);
+   notifyError(error);
+}
+
+function handleFormError() {
+   modalStore.closeModal();
+   notifyError("Network error occurred");
+}
+
+function handleEditClick(authorId: AuthorId) {
+   authorState.setAuthorState(authorId);
+   modalStore.selectModal(EditAuthorForm);
 }
 </script>
 
@@ -82,7 +97,12 @@ async function handleCreateAuthorForm(theArgs: ModalArguments) {
             Create Author
          </button>
       </div>
-      <AuthorsList :authors="authors" :loading="loading" :error="error" />
+      <AuthorsList
+         :authors="authors"
+         :loading="loading"
+         :error="error"
+         @edit-click="handleEditClick"
+      />
       <PaginationComponent
          v-if="totalAuthorsCount && totalAuthorsCount > 0"
          :total-count="totalAuthorsCount"
@@ -91,7 +111,7 @@ async function handleCreateAuthorForm(theArgs: ModalArguments) {
          @page-changed="fetchOtherPages"
       />
    </div>
-   <ModalComponent @form-submitted="handleCreateAuthorForm" />
+   <ModalComponent @form-submitted="handleFormSubmit" @network-error="handleFormError" />
 </template>
 
 <style scoped>

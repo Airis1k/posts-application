@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { useModalStore } from "@/stores/modal-store";
 import { type ModalArguments } from "@/typings/modal";
 
-const emit = defineEmits(["form-submitted"]);
+const emit = defineEmits(["form-submitted", "network-error"]);
 
 const modalStore = useModalStore();
 
@@ -13,12 +13,20 @@ const isOpen = computed(() => modalStore.isOpen);
 function handleFormSubmit(theArgs: ModalArguments) {
    emit("form-submitted", theArgs);
 }
+
+function handleFormError() {
+   emit("network-error");
+}
 </script>
 
 <template>
    <div v-if="isOpen" class="modalOverlay" @click="modalStore.closeModal">
       <div class="modalContent" @click.stop>
-         <component @form-submitted="handleFormSubmit" :is="dynamicComponent" />
+         <component
+            @form-submitted="handleFormSubmit"
+            @network-error="handleFormError"
+            :is="dynamicComponent"
+         />
       </div>
    </div>
 </template>

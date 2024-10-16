@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import AuthorItem from "./author-item.vue";
-import { type Author } from "@/typings/authors";
+import type { Author, AuthorId } from "@/typings/authors";
 
 defineProps<{
    authors: Author[] | null;
    loading: boolean;
    error: Error | null;
 }>();
+
+const emit = defineEmits(["edit-click"]);
+
+function handleEditClick(authorId: AuthorId) {
+   emit("edit-click", authorId);
+}
 </script>
 
 <template>
    <ul v-if="authors && authors.length > 0" class="listWrap">
-      <AuthorItem v-for="author in authors" :key="author.id" :author="author" />
+      <AuthorItem v-for="author in authors" :key="author.id" :author="author" @edit-click="handleEditClick" />
    </ul>
    <p v-if="!loading && (!authors || authors.length === 0)">Sorry, no matches were found</p>
    <p v-if="loading" class="loadingStyle">Data is loading...</p>

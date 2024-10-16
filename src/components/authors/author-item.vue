@@ -8,6 +8,8 @@ const props = defineProps<{
    author: Author;
 }>();
 
+const emit = defineEmits(["edit-click"]);
+
 const userStore = useUserStore();
 
 const isAuthenticated = computed(() => userStore.user.id !== 0);
@@ -21,6 +23,10 @@ const latestDate = computed(() => {
    const latest = createdAt > updatedAt ? createdAt : updatedAt;
    return useFormatDate(latest);
 });
+
+function handleEditClick() {
+   emit("edit-click", props.author.id);
+}
 </script>
 
 <template>
@@ -36,7 +42,7 @@ const latestDate = computed(() => {
             </div>
          </div>
          <footer v-if="isAuthenticated" class="card-footer">
-            <button class="card-footer-item">Edit</button>
+            <button class="card-footer-item" @click="handleEditClick">Edit</button>
             <button class="card-footer-item">Delete</button>
          </footer>
       </div>
