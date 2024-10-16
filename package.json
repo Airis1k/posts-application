@@ -17,6 +17,7 @@
       "commit": "cz"
    },
    "dependencies": {
+      "@vueuse/core": "^11.1.0",
       "axios": "^1.7.7",
       "bulma": "^1.0.2",
       "pinia": "^2.1.7",
