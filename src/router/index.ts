@@ -4,6 +4,7 @@ import PostsView from "../views/posts-view.vue";
 import PageNotFoundView from "../views/page-not-found-view.vue";
 import LoginView from "../views/login-view.vue";
 import SinglePostView from "../views/single-post-view.vue";
+import { useUserStore } from "@/stores/user-store";
 
 const router = createRouter({
    history: createWebHistory(import.meta.env.BASE_URL),
@@ -25,8 +26,8 @@ const router = createRouter({
          name: "Login",
          component: LoginView,
          beforeEnter(to, from, next) {
-            const isAuthenticated = localStorage.getItem("userInfo");
-            if (isAuthenticated) {
+            const userStore = useUserStore();
+            if (userStore.isAuthenticated()) {
                next("/");
             } else {
                next();
