@@ -1,6 +1,7 @@
 import { reactive, readonly, ref } from "vue";
 import { defineStore } from "pinia";
-import { type User, type UserCredentials } from "@/typings/login";
+import { jwtDecode } from "jwt-decode";
+import type { User, UserCredentials } from "@/typings/login";
 
 export const useUserStore = defineStore("user", () => {
    const storage = localStorage.getItem("userInfo");
@@ -22,10 +23,28 @@ export const useUserStore = defineStore("user", () => {
       localStorage.removeItem("userInfo");
    }
 
+   function isAuthenticated(): boolean {
+      if (!accessToken.value) {
+         return false;
+      }
+
+      try {
+         const decoded = jwtDecode(accessToken.value);
+         if (decoded.exp && Date.now() >= decoded.exp * 1000) {
+            return false;
+         }
+      } catch (err) {
+         return false;
+      }
+
+      return true;
+   }
+
    return {
       user: readonly(user),
       accessToken: readonly(accessToken),
       save,
       reset,
+      isAuthenticated,
    };
 });
