@@ -8,16 +8,26 @@ defineProps<{
    error: Error | null;
 }>();
 
-const emit = defineEmits(["edit-click"]);
+const emit = defineEmits(["edit-click", "delete-click"]);
 
 function handleEditClick(authorId: AuthorId) {
    emit("edit-click", authorId);
+}
+
+function handleDeleteClick(authorId: AuthorId) {
+   emit("delete-click", authorId);
 }
 </script>
 
 <template>
    <ul v-if="authors && authors.length > 0" class="listWrap">
-      <AuthorItem v-for="author in authors" :key="author.id" :author="author" @edit-click="handleEditClick" />
+      <AuthorItem
+         v-for="author in authors"
+         :key="author.id"
+         :author="author"
+         @edit-click="handleEditClick"
+         @delete-click="handleDeleteClick"
+      />
    </ul>
    <p v-if="!loading && (!authors || authors.length === 0)">Sorry, no matches were found</p>
    <p v-if="loading" class="loadingStyle">Data is loading...</p>
