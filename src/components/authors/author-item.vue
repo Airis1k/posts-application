@@ -8,7 +8,7 @@ const props = defineProps<{
    author: Author;
 }>();
 
-const emit = defineEmits(["edit-click"]);
+const emit = defineEmits(["edit-click", "delete-click"]);
 
 const userStore = useUserStore();
 
@@ -27,6 +27,10 @@ const latestDate = computed(() => {
 function handleEditClick() {
    emit("edit-click", props.author.id);
 }
+
+function handleDeleteClick() {
+   emit("delete-click", props.author.id);
+}
 </script>
 
 <template>
@@ -43,7 +47,7 @@ function handleEditClick() {
          </div>
          <footer v-if="isAuthenticated" class="card-footer">
             <button class="card-footer-item" @click="handleEditClick">Edit</button>
-            <button class="card-footer-item">Delete</button>
+            <button class="card-footer-item" @click="handleDeleteClick">Delete</button>
          </footer>
       </div>
    </li>

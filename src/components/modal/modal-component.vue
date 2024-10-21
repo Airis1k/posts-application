@@ -3,7 +3,11 @@ import { computed } from "vue";
 import { useModalStore } from "@/stores/modal-store";
 import { type ModalArguments } from "@/typings/modal";
 
-const emit = defineEmits(["form-submitted", "network-error"]);
+const emit = defineEmits(["form-submitted", "network-error", "confirm-action", "cancel-action"]);
+
+const props = defineProps<{
+   loading: boolean;
+}>();
 
 const modalStore = useModalStore();
 
@@ -17,16 +21,28 @@ function handleFormSubmit(theArgs: ModalArguments) {
 function handleFormError() {
    emit("network-error");
 }
+
+function handleConfirmAction() {
+   emit("confirm-action");
+}
+
+function handleCancelAction() {
+   emit("cancel-action");
+}
 </script>
 
 <template>
    <div v-if="isOpen" class="modalOverlay" @click="modalStore.closeModal">
       <div class="modalContent" @click.stop>
          <component
+            v-if="!props.loading"
             @form-submitted="handleFormSubmit"
             @network-error="handleFormError"
+            @confirm-action="handleConfirmAction"
+            @cancel-action="handleCancelAction"
             :is="dynamicComponent"
          />
+         <div v-else>Loading...</div>
       </div>
    </div>
 </template>
