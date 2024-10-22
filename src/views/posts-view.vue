@@ -1,26 +1,39 @@
 <script setup lang="ts">
 declare const ITEMS_PER_PAGE: number;
 
-import { onMounted, ref, watch } from "vue";
-import SearchForm from "@/components/forms/search-form.vue";
+import { onMounted, ref, watch, computed } from "vue";
+
 import { usePostsWithAuthor } from "@/composables/posts/get-posts-with-author";
 import { useNotificationsStore } from "@/stores/notifications-store";
+import { useUserStore } from "@/stores/user-store";
+import { useModalStore } from "@/stores/modal-store";
+
+import SearchForm from "@/components/forms/search-form.vue";
 import PostsList from "@/components/posts/posts-list.vue";
 import PaginationComponent from "@/components/pagination-component.vue";
+import ModalComponent from "@/components/modal/modal-component.vue";
+import CreatePostForm from "@/components/forms/create-post-form.vue";
+
+import type { ModalArguments } from "@/typings/modal";
 
 const POSTS_PER_PAGE = ITEMS_PER_PAGE;
 
 const currentPage = ref(1);
-const currentSearchQuery = ref("");
+const searchQuery = ref("");
 const searchPlaceholder: string = "Find a post";
+const modalLoadingStatus = ref(false);
 
 const { postsWithAuthor, totalPostsCount, error, loading, fetchPostsWithAuthor } =
    usePostsWithAuthor();
 
 const notificationStore = useNotificationsStore();
+const userStore = useUserStore();
+const modalStore = useModalStore();
 
 const notifySuccess = (msg: string) => notificationStore.setSuccess(msg);
 const notifyError = (msg: string) => notificationStore.setError(msg);
+
+const isAuthenticated = computed(() => userStore.user.id !== 0);
 
 onMounted(async () => {
    await fetchPostsWithAuthor(1, POSTS_PER_PAGE);
@@ -37,13 +50,34 @@ watch(error, (newError) => {
 
 function fetchOtherPages(page: number) {
    currentPage.value = page;
-   fetchPostsWithAuthor(currentPage.value, POSTS_PER_PAGE, currentSearchQuery.value);
+   fetchPostsWithAuthor(currentPage.value, POSTS_PER_PAGE, searchQuery.value);
 }
 
 function handleSearchSubmit(searchValue: string) {
-   currentSearchQuery.value = searchValue;
+   searchQuery.value = searchValue;
    currentPage.value = 1;
-   fetchPostsWithAuthor(1, POSTS_PER_PAGE, currentSearchQuery.value);
+   fetchPostsWithAuthor(1, POSTS_PER_PAGE, searchQuery.value);
+}
+
+async function handleFormSubmit(theArgs: ModalArguments) {
+   const { success, error } = theArgs.responseMessage;
+
+   if (success) {
+      modalLoadingStatus.value = true;
+      theArgs.reset();
+      await fetchPostsWithAuthor(currentPage.value, POSTS_PER_PAGE, searchQuery.value);
+      modalLoadingStatus.value = false;
+      modalStore.closeModal();
+      notifySuccess(success);
+
+      return;
+   }
+
+   notifyError(error);
+}
+
+function handleFormError() {
+   notifyError("Network error occurred");
 }
 </script>
 
@@ -52,6 +86,13 @@ function handleSearchSubmit(searchValue: string) {
       <h1 class="headingText">Posts page</h1>
       <div class="wrapper">
          <SearchForm @form-submitted="handleSearchSubmit" :searchPlaceholder="searchPlaceholder" />
+         <button
+            v-if="isAuthenticated"
+            class="button"
+            @click="modalStore.selectModal(CreatePostForm)"
+         >
+            Create Post
+         </button>
       </div>
       <PostsList :posts-with-author="postsWithAuthor" :loading="loading" :error="error" />
       <PaginationComponent
@@ -62,6 +103,11 @@ function handleSearchSubmit(searchValue: string) {
          @page-changed="fetchOtherPages"
       />
    </div>
+   <ModalComponent
+      @form-submitted="handleFormSubmit"
+      @network-error="handleFormError"
+      :loading="modalLoadingStatus"
+   />
 </template>
 
 <style scoped>

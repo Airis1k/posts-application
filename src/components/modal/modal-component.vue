@@ -5,6 +5,10 @@ import { type ModalArguments } from "@/typings/modal";
 
 const emit = defineEmits(["form-submitted", "network-error"]);
 
+const props = defineProps<{
+   loading: boolean;
+}>();
+
 const modalStore = useModalStore();
 
 const dynamicComponent = computed(() => modalStore.modal);
@@ -23,10 +27,12 @@ function handleFormError() {
    <div v-if="isOpen" class="modalOverlay" @click="modalStore.closeModal">
       <div class="modalContent" @click.stop>
          <component
+            v-if="!props.loading"
             @form-submitted="handleFormSubmit"
             @network-error="handleFormError"
             :is="dynamicComponent"
          />
+         <div v-else>Loading...</div>
       </div>
    </div>
 </template>
