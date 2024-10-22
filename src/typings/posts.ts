@@ -25,6 +25,7 @@ export type Post = {
 
 export type RawPost = {
    title: string;
+   author: AuthorId;
    content: string;
 };
 

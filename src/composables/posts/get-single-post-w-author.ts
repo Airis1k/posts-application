@@ -10,11 +10,6 @@ export function useSinglePostWithAuthor() {
    const loading = ref(false);
 
    async function fetchPostWithAuthor(postId: number): Promise<void> {
-      if (singlePostWithAuthorCache.value && singlePostWithAuthorCache.value.id === postId) {
-         singlePostWithAuthor.value = singlePostWithAuthorCache.value;
-         return;
-      }
-
       loading.value = true;
       try {
          const response = await ApiService.get(`/posts/${postId}?_expand=author`);
