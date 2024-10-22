@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import PostItem from "../../components/posts/post-item.vue";
-import { type PostWithAuthor } from "@/typings/posts";
+import type { PostId, PostWithAuthor } from "@/typings/posts";
 
 defineProps<{
    postsWithAuthor: PostWithAuthor[] | null;
    loading: boolean;
    error: Error | null;
 }>();
+
+const emit = defineEmits(["edit-click"]);
+
+function handleEditClick(postId: PostId) {
+   emit("edit-click", postId);
+}
 </script>
 
 <template>
@@ -15,6 +21,7 @@ defineProps<{
          v-for="postWithAuthor in postsWithAuthor"
          :key="postWithAuthor.id"
          :postWithAuthor="postWithAuthor"
+         @edit-click="handleEditClick"
       />
    </ul>
    <p v-if="!loading && (!postsWithAuthor || postsWithAuthor.length === 0)">
