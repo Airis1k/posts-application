@@ -9,6 +9,10 @@ const props = defineProps<{
    loading: boolean;
 }>();
 
+const props = defineProps<{
+   loading: boolean;
+}>();
+
 const modalStore = useModalStore();
 
 const dynamicComponent = computed(() => modalStore.modal);

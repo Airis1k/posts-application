@@ -12,3 +12,9 @@ export type PostWithAuthor = {
    updated_at: string;
    author: Author;
 };
+
+export type RawPost = {
+   title: string;
+   author: AuthorId;
+   content: string;
+};

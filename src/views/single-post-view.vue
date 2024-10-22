@@ -30,9 +30,9 @@ onMounted(async () => {
    <div class="container">
       <h1 class="headingText">Single Post Page</h1>
       <SinglePost v-if="singlePostWithAuthor" :postWithAuthor="singlePostWithAuthor" />
+      <p v-if="loading">Data is loading...</p>
+      <p v-if="error">We could not find post at the moment :(</p>
    </div>
-   <p v-if="loading">Data is loading...</p>
-   <p v-if="error">We could not find post at the moment :(</p>
 </template>
 
 <style scoped>

@@ -50,6 +50,7 @@ const latestDate = computed(() => {
 .description {
    letter-spacing: -0.4px;
    max-width: 550px;
+   white-space: break-spaces;
 }
 
 .author {
