@@ -9,7 +9,7 @@ const props = defineProps<{
    postWithAuthor: PostWithAuthor;
 }>();
 
-const emit = defineEmits(["edit-click"]);
+const emit = defineEmits(["delete-click", "edit-click"]);
 
 const userStore = useUserStore();
 
@@ -26,6 +26,9 @@ const latestDate = computed(() => {
    const latest = createdAt > updatedAt ? createdAt : updatedAt;
    return useFormatDate(latest);
 });
+
+function handleDeleteClick() {
+   emit("delete-click", props.postWithAuthor.id);
 
 function handleEditClick() {
    emit("edit-click", props.postWithAuthor.id);
@@ -53,7 +56,7 @@ function handleEditClick() {
          </div>
          <footer v-if="isAuthenticated" class="card-footer">
             <button class="card-footer-item" @click="handleEditClick">Edit</button>
-            <button class="card-footer-item">Delete</button>
+            <button class="card-footer-item" @click="handleDeleteClick">Delete</button>
          </footer>
       </div>
    </li>
