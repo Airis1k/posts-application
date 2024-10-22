@@ -4,12 +4,15 @@ declare const ITEMS_PER_PAGE: number;
 import { onMounted, ref, watch } from "vue";
 import { usePostsWithAuthor } from "@/composables/posts/get-posts-with-author";
 import { useNotificationsStore } from "@/stores/notifications-store";
+import { useConfirmGlobalState } from "@/stores/confirm-store";
 import { usePostGlobalState } from "@/stores/post-store";
 import { useModalStore } from "@/stores/modal-store";
+import { useRemovePost } from "@/composables/posts/delete-post";
 
 import SearchForm from "@/components/forms/search-form.vue";
 import PostsList from "@/components/posts/posts-list.vue";
 import PaginationComponent from "@/components/pagination-component.vue";
+import ConfirmAction from "@/components/confirm-action.vue";
 import EditPostForm from "@/components/forms/edit-post-form.vue";
 import ModalComponent from "@/components/modal/modal-component.vue";
 
@@ -25,10 +28,12 @@ const modalLoadingStatus = ref(false);
 
 const { postsWithAuthor, totalPostsCount, error, loading, fetchPostsWithAuthor } =
    usePostsWithAuthor();
+const { successMessage, errorMessage, removePost } = useRemovePost();
 
 const notificationStore = useNotificationsStore();
-const modalStore = useModalStore();
 const postState = usePostGlobalState();
+const confirmState = useConfirmGlobalState();
+const modalStore = useModalStore();
 
 const notifySuccess = (msg: string) => notificationStore.setSuccess(msg);
 const notifyError = (msg: string) => notificationStore.setError(msg);
@@ -58,6 +63,35 @@ function handleSearchSubmit(searchValue: string) {
    currentPage.value = 1;
    fetchPostsWithAuthor(1, POSTS_PER_PAGE, searchQuery.value);
 }
+
+function handleDeleteClick(postId: PostId) {
+   postState.setPostState(postId);
+   confirmState.setConfirmMessage("Are you sure you want to delete this post?");
+   modalStore.selectModal(ConfirmAction);
+}
+
+async function handleConfirmAction() {
+   if (!postState.postId.value) {
+      notifyError("Network error occurred");
+      return;
+   }
+
+   modalLoadingStatus.value = true;
+   await removePost(postState.postId.value);
+   if (successMessage.value) {
+      currentPage.value = 1;
+      await fetchPostsWithAuthor(currentPage.value, POSTS_PER_PAGE, searchQuery.value);
+      notifySuccess(successMessage.value);
+   } else {
+      notifyError(errorMessage.value!);
+   }
+
+   modalLoadingStatus.value = false;
+   modalStore.closeModal();
+}
+
+function handleCancelAction() {
+   modalStore.closeModal();
 
 function handleEditClick(postId: PostId) {
    postState.setPostState(postId);
@@ -103,6 +137,7 @@ function handleFormError() {
          :posts-with-author="postsWithAuthor"
          :loading="loading"
          :error="error"
+         @delete-click="handleDeleteClick"
          @edit-click="handleEditClick"
       />
       <PaginationComponent
@@ -114,6 +149,8 @@ function handleFormError() {
       />
    </div>
    <ModalComponent
+      @confirm-action="handleConfirmAction"
+      @cancel-action="handleCancelAction"
       @form-submitted="handleFormSubmit"
       @network-error="handleFormError"
       :loading="modalLoadingStatus"

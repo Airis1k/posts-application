@@ -8,7 +8,10 @@ defineProps<{
    error: Error | null;
 }>();
 
-const emit = defineEmits(["edit-click"]);
+const emit = defineEmits(["delete-click", "edit-click"]);
+
+function handleDeleteClick(postId: PostId) {
+   emit("delete-click", postId);
 
 function handleEditClick(postId: PostId) {
    emit("edit-click", postId);
@@ -21,6 +24,7 @@ function handleEditClick(postId: PostId) {
          v-for="postWithAuthor in postsWithAuthor"
          :key="postWithAuthor.id"
          :postWithAuthor="postWithAuthor"
+         @delete-click="handleDeleteClick"
          @edit-click="handleEditClick"
       />
    </ul>
