@@ -1,13 +1,14 @@
 <script setup lang="ts">
 declare const ITEMS_PER_PAGE: number;
 
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import { usePostsWithAuthor } from "@/composables/posts/get-posts-with-author";
 import { useNotificationsStore } from "@/stores/notifications-store";
 import { useConfirmGlobalState } from "@/stores/confirm-store";
 import { usePostGlobalState } from "@/stores/post-store";
 import { useModalStore } from "@/stores/modal-store";
 import { useRemovePost } from "@/composables/posts/delete-post";
+import { useUserStore } from "@/stores/user-store";
 
 import SearchForm from "@/components/forms/search-form.vue";
 import PostsList from "@/components/posts/posts-list.vue";
@@ -15,6 +16,7 @@ import PaginationComponent from "@/components/pagination-component.vue";
 import ConfirmAction from "@/components/confirm-action.vue";
 import EditPostForm from "@/components/forms/edit-post-form.vue";
 import ModalComponent from "@/components/modal/modal-component.vue";
+import CreatePostForm from "@/components/forms/create-post-form.vue";
 
 import type { PostId } from "@/typings/posts";
 import type { ModalArguments } from "@/typings/modal";
@@ -34,6 +36,7 @@ const notificationStore = useNotificationsStore();
 const postState = usePostGlobalState();
 const confirmState = useConfirmGlobalState();
 const modalStore = useModalStore();
+const userStore = useUserStore();
 
 const notifySuccess = (msg: string) => notificationStore.setSuccess(msg);
 const notifyError = (msg: string) => notificationStore.setError(msg);
@@ -92,6 +95,7 @@ async function handleConfirmAction() {
 
 function handleCancelAction() {
    modalStore.closeModal();
+}
 
 function handleEditClick(postId: PostId) {
    postState.setPostState(postId);

@@ -29,6 +29,7 @@ const latestDate = computed(() => {
 
 function handleDeleteClick() {
    emit("delete-click", props.postWithAuthor.id);
+}
 
 function handleEditClick() {
    emit("edit-click", props.postWithAuthor.id);

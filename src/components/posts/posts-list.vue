@@ -12,6 +12,7 @@ const emit = defineEmits(["delete-click", "edit-click"]);
 
 function handleDeleteClick(postId: PostId) {
    emit("delete-click", postId);
+}
 
 function handleEditClick(postId: PostId) {
    emit("edit-click", postId);
