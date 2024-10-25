@@ -62,12 +62,12 @@ function logout() {
 
          <div v-if="isAuthenticated" class="authWrap">
             <p>
-               Welcome, <span class="boldText">{{ firstName }}</span>
+               Welcome, <span class="boldText" data-test="welcome">{{ firstName }}</span>
             </p>
             <button @click="logout" class="button">Logout</button>
          </div>
          <div v-else class="authWrap">
-            <RouterLink :to="{ name: 'Login' }" class="button">Login</RouterLink>
+            <RouterLink :to="{ name: 'Login' }" class="button" data-test="login">Login</RouterLink>
          </div>
       </nav>
    </header>

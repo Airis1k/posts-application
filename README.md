@@ -34,7 +34,7 @@ npm run dev
 -  To start json-server, run:
 
 ```
-json-server-auth db.json -r routes.json -w
+npm run server
 ```
 
 -  To check eslint & typescript types tests, run:

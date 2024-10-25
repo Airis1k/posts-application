@@ -41,7 +41,7 @@ export const useUserStore = defineStore("user", () => {
    }
 
    return {
-      user: readonly(user),
+      user,
       accessToken: readonly(accessToken),
       save,
       reset,

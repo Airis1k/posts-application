@@ -41,13 +41,13 @@ function handleDeleteClick() {
          </header>
          <div class="card-content">
             <div class="content">
-               <h2 class="headingText">{{ authorFullName }}</h2>
-               <span class="date">{{ latestDate }}</span>
+               <h2 class="headingText" data-test="title">{{ authorFullName }}</h2>
+               <span class="date" data-test="date">{{ latestDate }}</span>
             </div>
          </div>
          <footer v-if="isAuthenticated" class="card-footer">
-            <button class="card-footer-item" @click="handleEditClick">Edit</button>
-            <button class="card-footer-item" @click="handleDeleteClick">Delete</button>
+            <button class="card-footer-item" data-test="edit" @click="handleEditClick">Edit</button>
+            <button class="card-footer-item" data-test="delete" @click="handleDeleteClick">Delete</button>
          </footer>
       </div>
    </li>

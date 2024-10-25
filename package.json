@@ -14,7 +14,8 @@
       "format": "prettier --write src/",
       "ts-types": "npx vue-tsc -p tsconfig.app.json --noEmit",
       "type-test": "npm run lint && npm run ts-types",
-      "commit": "cz"
+      "commit": "cz",
+      "server": "json-server-auth db.json -r routes.json -w"
    },
    "dependencies": {
       "@vueuse/core": "^11.1.0",
@@ -29,7 +30,9 @@
       "yup": "^1.4.0"
    },
    "devDependencies": {
+      "@pinia/testing": "^0.1.6",
       "@rushstack/eslint-patch": "^1.8.0",
+      "@testing-library/vue": "^8.1.0",
       "@tsconfig/node20": "^20.1.4",
       "@types/jsdom": "^21.1.7",
       "@types/node": "^20.14.5",
