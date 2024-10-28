@@ -62,7 +62,7 @@ function logout() {
 
          <div v-if="isAuthenticated" class="authWrap">
             <p>
-               Welcome, <span class="boldText" data-test="welcome">{{ firstName }}</span>
+               Welcome, <span class="boldText">{{ firstName }}</span>
             </p>
             <button @click="logout" class="button">Logout</button>
          </div>
