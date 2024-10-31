@@ -15,5 +15,5 @@ export const useModalStore = defineStore("modal", () => {
       modal.value = null;
    }
 
-   return { modal: readonly(modal), isOpen, selectModal, closeModal };
+   return { modal, isOpen, selectModal, closeModal };
 });

@@ -33,7 +33,7 @@ function handleEditClick(postId: PostId) {
       Sorry, no matches were found
    </p>
    <p v-if="loading" class="loadingStyle">Data is loading...</p>
-   <p v-if="error">There are no posts created at the moment :(</p>
+   <p v-if="error" data-test="error-message">There are no posts created at the moment :(</p>
 </template>
 
 <style scoped>

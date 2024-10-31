@@ -1,6 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { describe, it, expect } from "vitest";
 import SinglePost from "@/components/single-post.vue";
+import { useCurrentDateFormatted, useFormatDate } from "@/utils/format-date";
 
 function factory(props) {
    return mount(SinglePost, {
@@ -38,5 +39,13 @@ describe("SinglePost", () => {
       expect(wrapper.find(".title").text()).toBe("First Post");
       expect(wrapper.find(".description").text()).toBe("Hello World");
       expect(wrapper.find(".author").text()).toBe("John Doe");
+   });
+
+   it("should show different dates when post was updated", () => {
+      postObj.updated_at = useCurrentDateFormatted();
+      const formatted = useFormatDate(new Date(postObj.created_at));
+      const wrapper = factory(postObj);
+
+      expect(wrapper.find(".date").text()).not.toBe(formatted);
    });
 });

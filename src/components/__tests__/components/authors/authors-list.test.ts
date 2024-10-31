@@ -61,7 +61,7 @@ describe("AuthorsList", () => {
    it("should render author list when authors array is not empty", () => {
       const wrapper = factory(authorObj);
 
-      expect(authorObj.authors.length).toBe(2);
+      expect(wrapper.findAll("author-item-stub").length).toBe(2);
       expect(wrapper.find(".listWrap").exists()).toBe(true);
    });
 

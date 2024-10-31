@@ -56,8 +56,10 @@ function handleEditClick() {
             </div>
          </div>
          <footer v-if="isAuthenticated" class="card-footer">
-            <button class="card-footer-item" @click="handleEditClick">Edit</button>
-            <button class="card-footer-item" @click="handleDeleteClick">Delete</button>
+            <button class="card-footer-item" data-test="edit-button" @click="handleEditClick">
+               Edit
+            </button>
+            <button class="card-footer-item" data-test="delete-button" @click="handleDeleteClick">Delete</button>
          </footer>
       </div>
    </li>

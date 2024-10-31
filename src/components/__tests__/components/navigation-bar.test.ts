@@ -71,9 +71,7 @@ describe("NavigationBar", () => {
    it("should render other routes", () => {
       const wrapper = factory();
 
-      console.log(wrapper.html());
-
-      const routerLinks = wrapper.findAll(".navbar-item");
-      console.log(routerLinks[0].html());
+      const routerLinks = wrapper.findAll(".navbar-start .navbar-item");
+      expect(routerLinks.length).toBe(2);
    });
 });

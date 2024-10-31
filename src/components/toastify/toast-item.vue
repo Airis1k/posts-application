@@ -23,7 +23,7 @@ function getIcon(type: string) {
          <p>{{ notification.message }}</p>
       </div>
       <div>
-         <button @click="notificationStore.removeNotification(notification.id)">
+         <button data-test="removeButton" @click="notificationStore.removeNotification(notification.id)">
             <img :src="closeIcon" alt="close icon" class="closeIcon" />
          </button>
       </div>
