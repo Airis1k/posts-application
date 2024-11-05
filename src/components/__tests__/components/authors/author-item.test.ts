@@ -3,17 +3,18 @@ import { describe, it, expect, vi } from "vitest";
 import AuthorItem from "@/components/authors/author-item.vue";
 import { createTestingPinia } from "@pinia/testing";
 import { useUserStore } from "@/stores/user-store";
+import type { Author } from "@/typings/authors";
 
 const newPinia = createTestingPinia({
    stubActions: false,
    createSpy: vi.fn,
 });
 
-function factory(props) {
+function factory(author: Author) {
    return mount(AuthorItem, {
       props: {
          author: {
-            ...props,
+            ...author,
          },
       },
       global: {

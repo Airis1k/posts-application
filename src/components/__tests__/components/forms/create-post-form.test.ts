@@ -35,10 +35,30 @@ vi.mock("@/composables/authors/get-all-authors", () => ({
       const error = ref<string | null>(null);
 
       const fetchAuthors = vi.fn(() => {
-         
-      })
-   }
-}))
+         authors.value = [
+            {
+               id: 1,
+               name: "John",
+               surname: "Doe",
+               userId: 1,
+               created_at: "2024-05-05T12:00:00Z",
+               updated_at: "2024-05-05T12:00:00Z",
+            },
+            {
+               id: 2,
+               name: "Jack",
+               surname: "Doe",
+               userId: 1,
+               created_at: "2024-05-07T12:00:00Z",
+               updated_at: "2024-05-07T12:00:00Z",
+            },
+         ];
+         error.value = null;
+      });
+
+      return { authors, error, fetchAuthors };
+   },
+}));
 
 describe("CreatePostForm", () => {
    it("should submit a form and return success message", async () => {
@@ -61,5 +81,15 @@ describe("CreatePostForm", () => {
 
       expect(successMessage.value).toBe(null);
       expect(errorMessage.value).toMatch(/error/i);
+   });
+
+   it("should successfully fetch authors when component is mounted", async () => {
+      const wrapper = factory();
+
+      const { error, fetchAuthors } = useAllAuthors();
+      await fetchAuthors();
+
+      expect(wrapper.findAll("select option").length).toBe(3);
+      expect(error.value).toBe(null);
    });
 });
